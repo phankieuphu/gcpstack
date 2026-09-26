@@ -97,7 +97,7 @@ After the MVP:
 
 ## GitHub Pages
 
-The landing page is deployed by [`.github/workflows/pages.yml`](.github/workflows/pages.yml) on every push to `main` that touches `docs/` (or manually via **Actions → Run workflow**).
+The landing page is deployed by [`.github/workflows/pages.yml`](.github/workflows/pages.yml) on every push to `master` that touches `docs/` (or manually via **Actions → Run workflow**).
 
 One-time setup: in **Settings → Pages**, set **Source** to **GitHub Actions**.
 
