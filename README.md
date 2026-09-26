@@ -4,7 +4,7 @@
 
 GCPStack is a planned single-binary emulator for Google Cloud services — Cloud Storage, Pub/Sub, Secret Manager and more — on one port, with one config file, and services that talk to each other. Like LocalStack, but for GCP.
 
-🌐 **Landing page:** https://phankieuphu.github.io/gcp-local/
+🌐 **Repository:** https://github.com/phankieuphu/gcpstack
 
 > Status: planning. The landing page in [`docs/`](docs/index.html) describes the architecture, roadmap and planned quickstart.
 
