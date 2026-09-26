@@ -43,31 +43,52 @@ pubsub:
 ```sh
 docker run -p 4510:4510 \
   -v ./init.yaml:/etc/gcpstack/init.yaml \
-  gcpstack/gcpstack
+  ghcr.io/phankieuphu/gcpstack
 
 export STORAGE_EMULATOR_HOST=http://localhost:4510
 export PUBSUB_EMULATOR_HOST=localhost:4510
 ```
 
+## Roadmap
+
+**v0.1.0 · MVP (~7 weeks)**: Storage and Pub/Sub, connected. It replaces the Pub/Sub emulator and fake-gcs-server with one container.
+
+| Week | Scope                                                                  | Done when                              |
+| ---- | ---------------------------------------------------------------------- | -------------------------------------- |
+| 1    | Repo setup, cmux gateway, config, health and reset, CI                 | Both protocols answer on `:4510`       |
+| 2    | Storage: buckets, objects, simple and multipart upload, downloads      | Go client basic read and write         |
+| 3    | Storage: resumable upload, list with prefix and delimiter              | Go `Writer` works with default settings |
+| 4    | Pub/Sub: topics, subscriptions, Publish, Pull, Acknowledge             | Publish and pull test passes           |
+| 5    | Pub/Sub: StreamingPull, ack deadlines, redelivery                      | Go `Receive()` works reliably          |
+| 6    | Event bus, Storage notifications, push delivery, `init.yaml`           | End-to-end demo works                  |
+| 7    | Docker image, GoReleaser, README, Python smoke test                    | v0.1.0 released                        |
+
+After the MVP:
+
+- **v0.2 (~4 weeks)**: Secret Manager, Cloud Tasks, Cloud Scheduler.
+- **v0.3 (~3 weeks)**: SQLite persistence, admin UI, Terraform examples, testcontainers-go module.
+- **v0.4 (~3 weeks)**: Pub/Sub ordering keys, filters, dead-letter topics, exactly-once delivery.
+- **v0.5+ (ongoing)**: Firestore and BigQuery, starting with existing emulators behind the gateway.
+
 ## Service coverage plan
 
-| Service                   | Protocol  | Phase | Approach                   |
-| ------------------------- | --------- | ----- | -------------------------- |
-| Cloud Storage             | JSON REST | 1     | Build                      |
-| Pub/Sub                   | gRPC      | 1     | Build from protos          |
-| Secret Manager            | gRPC      | 3     | Build from protos          |
-| Cloud Tasks               | gRPC      | 3     | Build from protos          |
-| Cloud Scheduler           | gRPC      | 3     | Build from protos          |
-| Firestore                 | gRPC      | 5     | Proxy official emulator    |
-| BigQuery                  | REST      | 5     | Evaluate bigquery-emulator |
-| Cloud Run, Functions, GKE | —         | —     | Out of scope               |
+| Service                   | Protocol              | Release  | Approach                   |
+| ------------------------- | --------------------- | -------- | -------------------------- |
+| Cloud Storage             | JSON REST + XML reads | v0.1 MVP | Build                      |
+| Pub/Sub                   | gRPC                  | v0.1 MVP | Build from protos          |
+| Secret Manager            | gRPC                  | v0.2     | Build from protos          |
+| Cloud Tasks               | gRPC                  | v0.2     | Build from protos          |
+| Cloud Scheduler           | gRPC                  | v0.2     | Build from protos          |
+| Firestore                 | gRPC                  | v0.5+    | Proxy official emulator    |
+| BigQuery                  | REST                  | v0.5+    | Evaluate bigquery-emulator |
+| Cloud Run, Functions, GKE | —                     | —        | Out of scope               |
 
 ## Repository contents
 
 ```
 .
 ├── docs/
-│   ├── index.html      # landing page (self-contained bundle)
+│   ├── index.html      # landing page (static HTML, responsive)
 │   └── .nojekyll
 ├── .github/workflows/
 │   └── pages.yml       # deploys docs/ to GitHub Pages
@@ -76,7 +97,7 @@ export PUBSUB_EMULATOR_HOST=localhost:4510
 
 ## GitHub Pages
 
-The landing page is deployed by [`.github/workflows/pages.yml`](.github/workflows/pages.yml) on every push to `main` that touches `docs/` (or manually via **Actions → Run workflow**).
+The landing page is deployed by [`.github/workflows/pages.yml`](.github/workflows/pages.yml) on every push to `master` that touches `docs/` (or manually via **Actions → Run workflow**).
 
 One-time setup: in **Settings → Pages**, set **Source** to **GitHub Actions**.
 
