@@ -89,6 +89,7 @@ After the MVP:
 .
 ├── docs/
 │   ├── index.html      # landing page (static HTML, responsive)
+│   ├── favicon.svg     # favicon (plus favicon-32.png, apple-touch-icon.png)
 │   └── .nojekyll
 ├── .github/workflows/
 │   └── pages.yml       # deploys docs/ to GitHub Pages
